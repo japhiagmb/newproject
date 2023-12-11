@@ -1,0 +1,62 @@
+# 2. #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct Stack {
+    int top;
+    unsigned capacity;
+    char* array;
+} Stack;
+
+Stack* createStack(unsigned capacity) {
+    Stack* stack = (Stack*) malloc(sizeof(Stack));
+    stack->capacity = capacity;
+    stack->top = -1;
+    stack->array = (char*) malloc(stack->capacity * sizeof(char));
+    return stack;
+}
+
+void push(Stack* stack, char item) {
+    stack->array[++stack->top] = item;
+}
+
+char pop(Stack* stack) {
+    return stack->array[stack->top--];
+}
+
+char peek(Stack* stack) {
+    return stack->array[stack->top];
+}
+
+int isPalindrome(char str[]) {
+    int len = strlen(str);
+
+    Stack* stack = createStack(len);
+
+    int i;
+    for (i = 0; i < len; i++) {
+        push(stack, str[i]);
+    }
+
+    for (i = 0; i < len; i++) {
+        if (str[i] != pop(stack)) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main() {
+    char str[100];
+    printf("Enter a string: ");
+    scanf("%s", str);
+
+    if (isPalindrome(str)) {
+        printf("The string is a palindrome.\n");
+    } else {
+        printf("The string is not a palindrome.\n");
+    }
+
+    return 0;
+}
