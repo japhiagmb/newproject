@@ -1,0 +1,36 @@
+#. 3 write a function to push operator on dynamically allocated stack containing real numbers
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Stack {
+    int top;
+    unsigned capacity;
+    double* array;
+} Stack;
+
+Stack* createStack(unsigned capacity) {
+    Stack* stack = (Stack*) malloc(sizeof(Stack));
+    stack->capacity = capacity;
+    stack->top = -1;
+    stack->array = (double*) malloc(stack->capacity * sizeof(double));
+    return stack;
+}
+
+void push(Stack* stack, double item) {
+    if (stack->top == stack->capacity - 1) {
+        printf("Stack is full. Cannot push %f.\n", item);
+        return;
+    }
+    stack->array[++stack->top] = item;
+    printf("%f pushed to stack\n", item);
+}
+
+int main() {
+    Stack* stack = createStack(100);
+
+    push(stack, 1.23);
+    push(stack, 4.56);
+    push(stack, 7.89);
+
+    return 0;
+}
